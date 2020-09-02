@@ -1,0 +1,2 @@
+"# HandBook_Entertainment"  
+# handbookforforeigner
