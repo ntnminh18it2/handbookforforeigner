@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:gravity="center"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="350dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/blue"
+            android:textSize="40dp"
+            android:text="Evaluate"
+            android:layout_marginBottom="10dp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"/>
+        <RatingBar
+            android:id="@+id/ratingMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            style="?android:attr/ratingBarStyleIndicator"
+            android:rating="3"
+            android:layout_below="@id/txtMediumRating"
+            android:layout_centerHorizontal="true"
+            android:isIndicator="false"
+            android:numStars="5"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="20dp"
+            android:padding="20dp"
+            android:id="@+id/edtEvaluate"
+            android:hint="Enter evaluate in the keyboar"
+            android:textSize="16dp"
+            android:background="@drawable/border_edittext_evaluate"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="end"
+            android:layout_marginRight="15dp"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_marginBottom="20dp"
+                android:id="@+id/btnEvaluate"
+                android:textColor="#fff"
+                android:background="@drawable/boderradius_button"
+                android:text="Send"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

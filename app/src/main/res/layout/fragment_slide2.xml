@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:id="@+id/slideLinnearLayout"
+    android:background="@drawable/backgroud">
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/imgSlide"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/slide2"
+        app:riv_corner_radius="100dp"
+        android:layout_centerInParent="true"
+        />
+    <TextView
+        android:id="@+id/txtTitlte2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:textStyle="bold"
+        android:text="Wellcome to Da Nang"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="30dp"
+        android:textColor="#FAF5F6"
+        android:layout_below="@id/imgSlide"
+       />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:text="Wellcome To App"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="20dp"
+        android:textColor="#FAF5F6"
+        android:layout_below="@id/txtTitlte2" />
+</LinearLayout>

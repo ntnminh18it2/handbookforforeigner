@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".src.Activity.SplashActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/img_citi_danang"
+        android:scaleType="fitXY"/>
+    <ProgressBar
+        android:layout_width="50dp"
+        android:layout_centerInParent="true"
+        android:id="@+id/progress"
+        android:layout_height="50dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:textSize="@dimen/TitleSize"
+        android:text="loading data"
+        android:textColor="#fff"
+        android:fontFamily="@font/kkkkk"
+        android:layout_above="@+id/progress"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

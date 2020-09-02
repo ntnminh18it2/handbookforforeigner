@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="TitleSize">20dp</dimen>
+    <dimen name="TitlePhu">18dp</dimen>
+    <dimen name="TitleMenu">13dp</dimen>
+    <dimen name="TitleSeemore">16dp</dimen>
+</resources>

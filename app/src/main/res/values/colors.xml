@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="yellow">#F6DE06</color>
+    <color name="red">#F80707</color>
+    <color name="balck">#000</color>
+    <color name="xam">#938282</color>
+    <color name="colortransfrom">#00000000</color>
+    <color name="editTextBG">#DADADA</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorGrey">#808080</color>
+
+    <color name="colorPrimary">#259aba</color>
+    <color name="colorPrimaryDark">#006c8a</color>
+    <color name="colorAccent">#65cbec</color>
+
+    <color name="white">#66D0FF</color>
+    <color name="transparent">#40C4FF</color>
+    <color name="gradStar">#1E88E5</color>
+    <color name="gradStop">#4BA0EA</color>
+    <color name="blue">#161C3E</color>
+</resources>

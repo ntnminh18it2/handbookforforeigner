@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.cardview.widget.CardView
+        android:layout_width="350dp"
+        android:layout_centerInParent="true"
+        app:cardCornerRadius="5dp"
+        android:layout_height="250dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/colorPrimary"
+                android:textColor="#fff"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:text="Update Password"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="20dp"
+                android:inputType="textPassword"
+                android:password="true"
+                android:id="@+id/txtNewPass"
+                android:textColor="#000"
+                android:hint="New Password"
+                android:textSize="16dp"
+                android:gravity="center"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:inputType="textPassword"
+                android:password="true"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="#000"
+                android:id="@+id/txtConfirmPass"
+                android:hint="Confirm pass"
+                android:textColorHint="#000"
+                android:textSize="16dp"
+                android:gravity="center"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:clickable="true"
+                android:id="@+id/linearLayoutLogin"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:background="@color/colorPrimary"
+                android:layout_marginTop="40dp"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Update"
+                    android:textStyle="bold"
+                    android:textColor="#fff"
+                    android:textSize="16dp"
+                    android:padding="5dp"
+                    android:gravity="center"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

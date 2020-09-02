@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <androidx.viewpager.widget.ViewPager
+        android:layout_width="match_parent"
+        android:id="@+id/mainviewpager"
+        android:layout_height="match_parent"/>
+
+    <com.rd.PageIndicatorView
+        android:layout_width="wrap_content"
+        app:piv_dynamicCount="true"
+        app:piv_viewPager="@+id/mainviewpager"
+        app:piv_animationType="drop"
+        app:piv_selectedColor="#F30707"
+        android:layout_alignParentBottom="true"
+        app:piv_unselectedColor="#000"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:layout_height="wrap_content"/>
+
+
+
+</RelativeLayout>

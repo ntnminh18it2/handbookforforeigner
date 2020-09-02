@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:padding="7dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginTop="20dp"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:padding="5dp"
+        android:layout_marginTop="15dp"
+        android:textSize="@dimen/TitleSize"
+        android:textColor="#000"
+        android:text="Destination"
+        android:fontFamily="@font/kkkkk"
+        android:id="@+id/txtTitleImageHomePage"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/TitleSeemore"
+        android:textStyle="italic"
+        android:fontFamily="@font/kkkkk"
+        android:layout_alignBottom="@+id/txtTitleImageHomePage"
+        android:text="See more"
+        android:id="@+id/txtSeemore"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/txtTitleImageHomePage"
+        android:id="@+id/recyclerviewImageHompage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+
+</RelativeLayout>
