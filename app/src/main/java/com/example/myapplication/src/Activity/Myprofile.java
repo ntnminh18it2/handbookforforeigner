@@ -24,6 +24,10 @@ public class Myprofile extends AppCompatActivity {
         setData();
     }
 
+    public void onclickEdit(View view){
+
+    }
+
     private void setData() {
         User user = new Gson().fromJson(MainActivity.sharedPreferences.getString("user",""),User.class);
         txtusername.setText(user.getName());

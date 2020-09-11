@@ -85,6 +85,7 @@
         android:drawableLeft="@drawable/ic_baseline_lock_24"
         android:drawablePadding="16dp"
         android:hint="Password"
+        android:password="true"
         android:inputType="text"
         android:padding="16dp"/>
     <Button

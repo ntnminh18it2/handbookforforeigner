@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
@@ -16,14 +17,17 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.models.menu_reponse.Menu;
+import com.example.myapplication.models.menu_reponse.MenuReponse;
+import com.example.myapplication.models.place_reponse.Place;
+import com.example.myapplication.services.APIServices;
+import com.example.myapplication.services.DataService;
 import com.example.myapplication.src.Adapter.AdapterMap;
-import com.example.myapplication.util.demo;
+import com.example.myapplication.src.Adapter.AdapterMenuMap;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,6 +35,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,101 +45,98 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback{
     private static final String TAG = "MapActivity";
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static  final  String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static int LOCATION_PERMISION_REQUEST_CODE=1234;
-    private static final float DEFAUL_ZOOM = 15f;
+    private static final float DEFAUL_ZOOM = 12f;
     //widgets
     private EditText mSeachText;
-    private ImageView mImgderection;
-    private ImageView mImageGps;
+
     //var
-    private ArrayList<LatLng> listStep;
     private Location mLocationStart;
-    private Location mLocationEnd;
-    private PolylineOptions polyline;
     private boolean mLocationPermisonGranted = false;
     private GoogleMap mMap;
+    private List<Marker> markers = new ArrayList<Marker>();
+    private ArrayList<Place>arrayListPlace = new ArrayList<>();
+
     //FuseLocationProviderClient là để tương tác với vị trí bằng cách sử dụng nhà cung cấp location provider.
     private FusedLocationProviderClient mFusedLocationProviderClient;
-    private RecyclerView recyclerviewMapSearch;
+    private RecyclerView recyclerviewMapSearch,RecyclerViewMenu;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-       anhxa();
+        anhxa();
+        getDataMenuAll();
         checkLocationPermison();
-
     }
+
+    private void getDataMenuAll() {
+        DataService dataService = APIServices.getService();
+        Call<MenuReponse>call = dataService.getDataMenuAll();
+        call.enqueue(new Callback<MenuReponse>() {
+            @Override
+            public void onResponse(Call<MenuReponse> call, Response<MenuReponse> response) {
+                Log.d(TAG, "onResponse: get data menu all"+response.toString());
+                if(response.isSuccessful()){
+                    ArrayList<Menu>arrayList = (ArrayList<Menu>) response.body().getData();
+                    AdapterMenuMap adapterMenuMap = new AdapterMenuMap(MapActivity.this,R.layout.layout_item_menu_map,arrayList);
+                    RecyclerViewMenu.setAdapter(adapterMenuMap);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MenuReponse> call, Throwable t) {
+                Log.d(TAG, "onFailure: get data menu all: "+t.toString());
+            }
+        });
+    }
+
+    public void addListMarkerByMenuMap(ArrayList<Place>arrayList){
+        markers.clear();
+        arrayListPlace.clear();
+
+        LatLng sydney = new LatLng(16.054489, 108.202154);
+        mMap.addMarker(new MarkerOptions()
+                .position(sydney)
+                .title("Da Nang City"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,15));
+
+        arrayListPlace = arrayList;
+        for(Place place : arrayList){
+            Marker m = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(Double.valueOf(place.getLat()), Double.valueOf(place.getLng())))
+                    .title(place.getName()));
+            markers.add(m);
+        }
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
         Log.d(TAG,"Map is ready");
         mMap = googleMap;
-        if(mLocationPermisonGranted){
-            getDeviceLocation();//lay vi tri hien tai cua thiet bi
-            searchGoogleMap();
-            mImageGps.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(mLocationPermisonGranted){
-                        Log.d(TAG, "onClick: click gps icon");
-                        getDeviceLocation();//function lay vi tri hien tai cua nguoi dung
-                    }
-                }
-            });
-        }
+
     }
 
     private void anhxa() {
-        mImgderection = findViewById(R.id.ic_derection);
-        mImageGps = findViewById(R.id.ic_gps);
+        RecyclerViewMenu = findViewById(R.id.RecyclerViewMenu);
+        RecyclerViewMenu.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MapActivity.this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        RecyclerViewMenu.setLayoutManager(linearLayoutManager);
+
         recyclerviewMapSearch = findViewById(R.id.recyclerviewMapSearch);
         recyclerviewMapSearch.setHasFixedSize(true);
         recyclerviewMapSearch.setLayoutManager(new GridLayoutManager(MapActivity.this,1));
-    }
-
-    // function search return về list điaiem
-    private void searchGoogleMap() {
-        mSeachText = findViewById(R.id.txt_search);
-        mSeachText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-               // lay dia chi tu vi tri tren google map
-                Log.d(TAG, "geoLacate: leogocating");
-                String searchString = mSeachText.getText().toString();
-                //  được sử dụng để mã hóa địa lý ngược, tức là lấy địa chỉ từ vị trí trên Google Map.
-                Geocoder geocoder = new Geocoder(MapActivity.this);
-                List<Address>list = new ArrayList<>();
-                try {
-                    list = geocoder.getFromLocationName(searchString,10);//phuong thuc tim kiem
-                }catch (IOException e){
-                    Log.d(TAG, "geoLacate: IOException: "+e.getMessage());
-                }
-
-                if(list.size() >0){
-                    AdapterMap adapterMap = new AdapterMap(list,MapActivity.this,R.layout.item_recyclerview_map_search);
-                    recyclerviewMapSearch.setAdapter(adapterMap);
-                    adapterMap.notifyDataSetChanged();
-                    Address address = list.get(0);
-                    Log.d(TAG, "geoLacate: found a location: "+address.toString());
-                }
-            }
-        });
     }
 
 
@@ -142,6 +144,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Log.d(TAG,"init Map: ");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MapActivity.this);
+
     }
 
     //kiem tra su cho phep google map
@@ -152,6 +155,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             if(ContextCompat.checkSelfPermission(this.getApplicationContext(),COURSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
                 mLocationPermisonGranted = true;
                 initMap();
+                getDeviceLocation();
+                listenerOnclickMap();
             }else {
                // Tuy nhiên, nếu quyền đó vẫn chưa được cấp, bạn có thể yêu cầu nó với requestPermissions
                 ActivityCompat.requestPermissions(this,permisons,LOCATION_PERMISION_REQUEST_CODE);
@@ -160,6 +165,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             ActivityCompat.requestPermissions(this,permisons,LOCATION_PERMISION_REQUEST_CODE);
         }
     }
+
+    private void listenerOnclickMap() {
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+
+            }
+        });
+    }
+
 
     //lay vi tri hien tai cua thiet bi
     private void getDeviceLocation(){
@@ -179,7 +194,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                 mLocationStart = currentLocation;
                                 // function di chuyen camera den vi tri hien tai
                                 moveCamera(new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude()),DEFAUL_ZOOM,
-                                        "My location",false);
+                                        "My location",true);
                                 //danh dau vi tri tren ban do(cham mau xanh)
                                 mMap.setMyLocationEnabled(true);
                                 //khi su dung setMyLocationEnabled se co vi tri mac dinh tren man hinh
@@ -191,7 +206,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             }
 
                         }else{
-                            Log.d(TAG, "onComplete: current location is null");
+                            Log.d(TAG, "onComplete: currenlàm t location is null");
                             Toast.makeText(MapActivity.this, "Unable to get current location", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -206,59 +221,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void moveCamera(LatLng latLng,float zoom, String title,boolean check){
         Log.d(TAG, "moveCamera: moving the camera to: last: "+latLng.latitude+", lng: "+latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom));
-        // danh dau dia diem
-        if(check){
-            MarkerOptions options = new MarkerOptions()
-                    .position(latLng)
-                    .title(title);
-
-            mMap.addMarker(options);
-            //mImgderection.setVisibility(View.VISIBLE);
-        }
-        mImgderection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new demo().executeGetData();
-            }
-        });
-
     }
-
-    // lắng nghe sự kiện tính quảng đường đi
-  //  private void listenerDerection(final Location mLocationStart, final LatLng latLng) {
-    //    Log.d("BBB", "location start: "+mLocationStart.toString());
-    //    Log.d("BBB","location end: "+latLng.toString());
-//        final AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
-//
-//            @Override
-//            protected Void doInBackground(Void... params) {
-
-                // 227 Nguyễn Văn Cừ : 10.762643, 106.682079
-                // Phố đi bộ Nguyễn Huệ : 10.774467, 106.703274
-//
-//                String request = makeURL("10.762643","106.682079","10.774467","106.703274");
-//                GetDirectionsTask task = new GetDirectionsTask(request);
-//                String hhh = String.valueOf(task);
-//                Log.d("AAA","datta: "+hhh);
-//                ArrayList<LatLng> list = task.testDirection();
-//                for (LatLng latLng : list) {
-//                    listStep.add(latLng);
-//                }
-//              return null;
-//            }
-//            @Override
-//            protected void onPostExecute(Void result) {
-//                // TODO Auto-generated method stub
-//                super.onPostExecute(result);
-//                Log.d(TAG, "onPostExecute: ");
-//                polyline.addAll(listStep);
-//                Polyline line = mMap.addPolyline(polyline);
-//                line.setColor(Color.BLUE);
-//                line.setWidth(5);
-//            }
-//        };
-
- //   }
 
 
     @Override
@@ -282,18 +245,4 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-    public String makeURL (String sourcelat, String sourcelng, String destlat, String destlng ){
-        StringBuilder urlString = new StringBuilder();
-        urlString.append("https://maps.googleapis.com/maps/api/directions/json");
-        urlString.append("?origin=");// from
-        urlString.append(sourcelat);
-        urlString.append(",");
-        urlString.append(sourcelng);
-        urlString.append("&destination=");// to
-        urlString.append(destlat);
-        urlString.append(",");
-        urlString.append(destlng);
-        urlString.append("&key="+getResources().getString(R.string.google_apikey_derection));
-        return "https://maps.googleapis.com/maps/api/directions/json?origin=10.762643,106.682079&destination=10.774467,106.703274&&key=AIzaSyCTOfSjXjaWexhm1-VHoaIuyHoR4mk0-0g";
-    }
 }

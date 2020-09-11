@@ -71,4 +71,19 @@ public interface DataService {
     @GET("rest-api/User/getNameUser")
     Call<String>getNameUser(@Query("id") int id);
 
+    @GET("rest-api/Menu/getDataMenuAll")
+    Call<MenuReponse>getDataMenuAll();
+
+    @GET("rest-api/Place/getDataPlaceIdMenu")
+    Call<PlaceReponse>getDataPlaceIdMenu(@Query("id") int id);
+
+    @FormUrlEncoded
+    @POST("rest-api/User/updateUser")
+    Call<String>updateUser(@Field("id") int id,
+                           @Field("name") String name,
+                           @Field("email") String email,
+                           @Field("phone") String phone,
+                           @Field("age") int age,
+                           @Field("gender") int gender);
+
 }

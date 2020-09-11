@@ -16,56 +16,48 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_marginRight="10dp"
         android:elevation="10dp"
-        android:background="@drawable/white_border"
+        android:background="#fff"
         android:id="@+id/relativeLayout1">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/TitlePhu"
+            android:fontFamily="@string/google_api_key"
+            android:layout_marginLeft="10dp"
+            android:background="#00000000"
+            android:textColor="#000"
+            android:hint="Enter your search term"
+            android:imeOptions="actionSearch"
+            android:id="@+id/txt_search"/>
         <ImageView
             android:layout_width="15dp"
             android:layout_marginLeft="10dp"
             android:id="@+id/ic_search"
             android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
             android:layout_height="15dp"
             android:src="@drawable/ic_search"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/ic_search"
-            android:layout_centerVertical="true"
-            android:textSize="@dimen/TitlePhu"
-            android:fontFamily="@string/google_api_key"
-            android:layout_marginLeft="10dp"
-            android:textColor="#000"
-            android:background="@null"
-            android:hint="Enter Address, City or Zip Code"
-            android:imeOptions="actionSearch"
-            android:id="@+id/txt_search"/>
 
     </RelativeLayout>
+
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:id="@+id/RecyclerViewMenu"
         android:layout_below="@+id/relativeLayout1"
+        android:layout_height="wrap_content"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/RecyclerViewMenu"
         android:layout_width="match_parent"
         android:id="@+id/recyclerviewMapSearch"
         android:layout_height="wrap_content"/>
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_below="@id/relativeLayout1"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/ic_gps"
-        android:scaleType="centerCrop"
-        android:id="@+id/ic_gps"/>
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="35dp"
-        android:id="@+id/ic_derection"
-        android:visibility="gone"
-        android:scaleType="fitXY"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_derection"/>
+
+
 </RelativeLayout>

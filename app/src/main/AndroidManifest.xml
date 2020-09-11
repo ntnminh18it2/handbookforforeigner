@@ -45,12 +45,18 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBjtLne1PU6njSd3bqNr42a5hWHm28q5qI" />
+            android:value="AIzaSyBClxD6VUhj7qYANJoQzL2MP8VYeVgET2s" />
 
         <activity android:name=".src.Activity.ListImageviewActivity" />
         <activity android:name=".src.Activity.ListPlaceActivity" />
         <activity android:name=".src.Activity.PlaceActivity" />
-        <activity android:name=".src.Activity.MainActivity" />
+        <activity android:name=".src.Activity.MainActivity" >
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
         <activity android:name=".src.Activity.DetailActivity" />
         <activity android:name=".src.Activity.SplashActivity">
             <intent-filter>
